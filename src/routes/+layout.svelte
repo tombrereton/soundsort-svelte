@@ -2,8 +2,8 @@
 	import type { PageData } from './$types';
 	import type { Snippet } from 'svelte';
 	import logo from '$lib/images/logo.svg';
-	import { signIn, signOut } from '@auth/sveltekit/client';
 	import '../app.css';
+	import SignInButton from '$lib/components/SignInButton.svelte';
 	let { data, children }: { data: PageData; children: Snippet } = $props();
 </script>
 
@@ -26,26 +26,7 @@
 					alt="user profile"
 				/>
 			{/if}
-
-			{#if data.session}
-				<button
-					class="rounded border-2 border-black p-1"
-					onclick={() => signOut()}
-					aria-label="Sign Out"
-				>
-					Sign Out
-				</button>
-			{/if}
-
-			{#if !data.session}
-				<button
-					class="rounded border-2 border-black p-1"
-					onclick={() => signIn()}
-					aria-label="Sign In"
-				>
-					Sign In
-				</button>
-			{/if}
+			<SignInButton session={data?.session} />
 		</nav>
 	</header>
 	<main class="flex-grow">
