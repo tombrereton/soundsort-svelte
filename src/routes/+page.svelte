@@ -1,2 +1,9 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import { signIn } from '@auth/sveltekit/client';
+</script>
+
+<div>
+	<button class="rounded border-2 border-black p-1" on:click={() => signIn()} aria-label="Sign In"
+		>Sign In</button
+	>
+</div>
