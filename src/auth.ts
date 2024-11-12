@@ -24,6 +24,7 @@ declare module '@auth/sveltekit' {
 const spotifyScopes = 'user-read-email playlist-modify-private playlist-modify-public';
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
+	trustHost: true,
 	providers: [
 		Spotify({
 			authorization: `https://accounts.spotify.com/authorize?scope=${encodeURIComponent(spotifyScopes)}`
