@@ -1,5 +1,6 @@
 import type { Actions } from '@sveltejs/kit';
 import type { PlaylistFormData } from '$lib/types';
+import { redirect } from '@sveltejs/kit';
 
 export const actions = {
 	default: async ({ request }) => {
@@ -22,18 +23,24 @@ export const actions = {
 		}
 
 		try {
-			console.log('Playlist data to save:', data);
+			// Build query string parameters
+			const params = new URLSearchParams();
+			params.append('genre', data.genre);
+			if (data.bpm) {
+				params.append('bpm', data.bpm.toString());
+			}
 
-			return {
-				success: true,
-				data
-			};
+			redirect(303, `/playlists/results?${params.toString()}`);
 		} catch (error) {
-			console.error('Failed to create playlist:', error);
-			return {
-				success: false,
-				error: 'Failed to create playlist'
-			};
+			if (error instanceof Error) {
+				console.error('Failed to create playlist:', error);
+				return {
+					success: false,
+					error: 'Failed to create playlist'
+				};
+			}
+			// If it's a redirect, throw it again
+			throw error;
 		}
 	}
 } satisfies Actions;

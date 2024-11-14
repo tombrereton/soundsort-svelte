@@ -36,8 +36,9 @@
 	{/if}
 
 	<form method="POST" use:enhance class="space-y-4">
-		<FormInput {...formInputs.genre} />
-		<FormInput {...formInputs.bpm} />
+		{#each Object.entries(formInputs) as [key, input] (key)}
+			<FormInput {...input} />
+		{/each}
 
 		<button
 			type="submit"

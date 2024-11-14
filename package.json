@@ -37,6 +37,7 @@
 		"vitest": "^2.0.4"
 	},
 	"dependencies": {
-		"@auth/sveltekit": "^1.7.3"
+		"@auth/sveltekit": "^1.7.3",
+		"@spotify/web-api-ts-sdk": "^1.2.0"
 	}
 }
