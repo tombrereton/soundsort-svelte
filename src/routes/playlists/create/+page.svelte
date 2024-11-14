@@ -1,41 +1,43 @@
 <script lang="ts">
+	import type { ActionData } from './$types';
 	import { enhance } from '$app/forms';
-	import type { PlaylistFormData } from '$lib/types';
+	import FormInput from '$lib/components/FormInput.svelte';
+	let { form }: { form: ActionData } = $props();
 
-	let formData: PlaylistFormData = {
-		genre: '',
-		bpm: ''
-	};
+	let formInputs = $state({
+		genre: {
+			label: 'Genre',
+			id: 'genre',
+			name: 'genre',
+			value: '',
+			required: true
+		},
+		bpm: {
+			label: 'BPM (optional)',
+			id: 'bpm',
+			name: 'bpm',
+			type: 'number' as const,
+			value: '',
+			min: 1,
+			max: 300
+		}
+	});
 </script>
 
 <div class="mx-auto mt-10 max-w-md rounded-lg bg-white p-6 shadow-lg">
 	<h1 class="mb-6 text-2xl font-bold text-gray-800">Create Playlist</h1>
 
-	<form method="POST" use:enhance class="space-y-4">
-		<div>
-			<label for="genre" class="block text-sm font-medium text-gray-700"> Genre </label>
-			<input
-				type="text"
-				id="genre"
-				name="genre"
-				bind:value={formData.genre}
-				class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-				required
-			/>
+	{#if form?.error}
+		<div class="mb-4 rounded-md bg-red-50 p-4">
+			<p class="text-sm text-red-700">
+				{form.error}
+			</p>
 		</div>
+	{/if}
 
-		<div>
-			<label for="bpm" class="block text-sm font-medium text-gray-700"> BPM </label>
-			<input
-				type="number"
-				id="bpm"
-				name="bpm"
-				bind:value={formData.bpm}
-				min="1"
-				max="300"
-				class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-			/>
-		</div>
+	<form method="POST" use:enhance class="space-y-4">
+		<FormInput {...formInputs.genre} />
+		<FormInput {...formInputs.bpm} />
 
 		<button
 			type="submit"

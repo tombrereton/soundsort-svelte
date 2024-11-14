@@ -1,28 +1,35 @@
+import type { Actions } from '@sveltejs/kit';
 import type { PlaylistFormData } from '$lib/types';
-import { fail, type Actions } from '@sveltejs/kit';
 
 export const actions = {
 	default: async ({ request }) => {
 		const formData = await request.formData();
+		const data = {} as PlaylistFormData;
+		const genre = formData.get('genre') as string;
+		const bpm = formData.get('bpm') as string | undefined;
 
-		const playlistData: PlaylistFormData = {
-			genre: formData.get('genre') as string,
-			bpm: Number(formData.get('bpm'))
-		};
+		if (!genre) {
+			return {
+				success: false,
+				error: 'Genre is required'
+			};
+		}
+		data.genre = genre;
 
-		if (!playlistData.genre) {
-			return fail(400, { success: false, error: 'Must contain a genre' });
+		if (bpm && bpm !== '') {
+			const bpmNumber = parseInt(bpm, 10);
+			data.bpm = bpmNumber;
 		}
 
 		try {
-			// Here you would typically save to a database
-			console.log('Received playlist data:', playlistData);
+			console.log('Playlist data to save:', data);
 
 			return {
 				success: true,
-				data: playlistData
+				data
 			};
 		} catch (error) {
+			console.error('Failed to create playlist:', error);
 			return {
 				success: false,
 				error: 'Failed to create playlist'
