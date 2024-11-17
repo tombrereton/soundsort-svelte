@@ -9,7 +9,7 @@
 
 	<div class="space-x-4">
 		<a
-			href={`https://open.spotify.com/playlist/${data.playlistId}`}
+			href={`spotify:playlist:${data.playlistId}`}
 			target="_blank"
 			rel="noopener noreferrer"
 			class="inline-block rounded-full bg-green-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-green-600"
