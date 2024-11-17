@@ -1,6 +1,7 @@
 export interface PlaylistFormData {
 	genre: string;
 	bpm: number | null;
+	happiness: number | null;
 }
 
 export interface PlaylistTrack {

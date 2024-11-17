@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { ActionData } from './$types';
 	import { enhance } from '$app/forms';
-	import FormInput from '$lib/components/FormInput.svelte';
+	import FormInput, { type FormInputProps } from '$lib/components/FormInput.svelte';
 	import SmallSpinner from '$lib/components/SmallSpinner.svelte';
 	let { form }: { form: ActionData } = $props();
 
 	let isSubmitting = $state(false);
 
-	let formInputs = $state({
+	let formInputs = $state<Record<string, FormInputProps>>({
 		genre: {
 			label: 'Genre',
 			id: 'genre',
@@ -19,10 +19,19 @@
 			label: 'BPM (optional)',
 			id: 'bpm',
 			name: 'bpm',
-			type: 'number' as const,
+			type: 'number',
 			value: '',
 			min: 1,
 			max: 300
+		},
+		happiness: {
+			label: 'Happiness (optional)',
+			id: 'happiness',
+			name: 'happiness',
+			type: 'number',
+			value: '',
+			min: 1,
+			max: 100
 		}
 	});
 </script>

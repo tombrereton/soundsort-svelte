@@ -1,6 +1,19 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	let { data } = $props<{ data: PageData }>();
+	import { goto } from '$app/navigation';
+	import type { PlaylistTrack } from '$lib/types';
+
+	function handleSavePlaylist() {
+		const searchParams = new URLSearchParams({
+			genre: data.genre,
+			tracks: JSON.stringify(data.tracks.map((track: PlaylistTrack) => track.id))
+		});
+		if (data.bpm) {
+			searchParams.append('bpm', data.bpm);
+		}
+		goto(`/playlists/save?${searchParams.toString()}`);
+	}
 </script>
 
 <div class="mx-auto mt-10 max-w-2xl rounded-lg bg-white p-6 shadow-lg">
@@ -19,6 +32,12 @@
 		</div>
 	{:else}
 		<div class="mt-6 space-y-4">
+			<button
+				onclick={handleSavePlaylist}
+				class="bg-spotify-green hover:bg-spotify-green-dark rounded-full px-6 py-3 font-semibold text-white transition-colors"
+			>
+				Save to Spotify
+			</button>
 			{#each data.tracks as track}
 				<div class="flex items-center gap-4 rounded-lg bg-gray-50 p-4 shadow">
 					<img

@@ -1,4 +1,15 @@
 <script lang="ts">
+	export interface FormInputProps {
+		label: string;
+		id: string;
+		type?: 'text' | 'number';
+		name: string;
+		value: string | number;
+		required?: boolean;
+		min?: string | number;
+		max?: string | number;
+	}
+
 	let {
 		label,
 		id,
@@ -8,16 +19,7 @@
 		required = false,
 		min = undefined,
 		max = undefined
-	} = $props<{
-		label: string;
-		id: string;
-		type?: 'text' | 'number';
-		name: string;
-		value: string | number;
-		required?: boolean;
-		min?: string | number;
-		max?: string | number;
-	}>();
+	}: FormInputProps = $props();
 </script>
 
 <div>

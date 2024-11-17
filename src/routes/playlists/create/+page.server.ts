@@ -6,9 +6,8 @@ export const actions = {
 	default: async ({ request }) => {
 		const formData = await request.formData();
 		const data = {} as PlaylistFormData;
-		const genre = formData.get('genre') as string;
-		const bpm = formData.get('bpm') as string | undefined;
 
+		const genre = formData.get('genre') as string;
 		if (!genre) {
 			return {
 				success: false,
@@ -17,13 +16,19 @@ export const actions = {
 		}
 		data.genre = genre;
 
+		const bpm = formData.get('bpm') as string | undefined;
 		if (bpm && bpm !== '') {
 			const bpmNumber = parseInt(bpm, 10);
 			data.bpm = bpmNumber;
 		}
 
+		const happiness = formData.get('happiness') as string | undefined;
+		if (happiness && happiness !== '') {
+			const bpmNumber = parseInt(happiness, 10);
+			data.happiness = bpmNumber;
+		}
+
 		try {
-			// Build query string parameters
 			const params = new URLSearchParams();
 			params.append('genre', data.genre);
 			if (data.bpm) {
@@ -39,7 +44,6 @@ export const actions = {
 					error: 'Failed to create playlist'
 				};
 			}
-			// If it's a redirect, throw it again
 			throw error;
 		}
 	}
