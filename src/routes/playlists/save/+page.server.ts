@@ -20,9 +20,7 @@ export const actions = {
 	default: async ({ request, locals }) => {
 		const session = await locals.auth();
 		if (!session) {
-			return fail(401, {
-				error: 'Not authenticated with Spotify'
-			});
+			return redirect(303, '/auth/signin');
 		}
 		const formData = await request.formData();
 		const playlistName = formData.get('playlistName') as string;
@@ -31,6 +29,7 @@ export const actions = {
 		const genre = formData.get('genre') as string;
 		const bpm = formData.get('bpm') as string;
 
+		let playlistId: string;
 		try {
 			const spotify = SpotifyApi.withAccessToken(env.AUTH_SPOTIFY_ID, session.token);
 			const me = await spotify.currentUser.profile();
@@ -46,14 +45,8 @@ export const actions = {
 				tracks.map((trackId: string) => `spotify:track:${trackId}`)
 			);
 
-			// If you're implementing scheduling, save it to your database here
-			// if (schedule !== 'none') {
-			// TODO: Implement scheduling logic
-			// This would involve saving the schedule to your database
-			// along with the playlist ID and other relevant information
-			// }
+			playlistId = playlist.id;
 		} catch (error) {
-			if (error instanceof Response) throw error;
 			console.error('Error creating playlist:', error);
 			return fail(500, {
 				error: 'Failed to create playlist',
@@ -61,6 +54,6 @@ export const actions = {
 				schedule
 			});
 		}
-		return redirect(303, `/playlists/success?id=${'asd'}`);
+		redirect(303, `/playlists/success?id=${playlistId}`);
 	}
 } satisfies Actions;

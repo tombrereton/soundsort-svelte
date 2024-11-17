@@ -18,7 +18,7 @@
 		</a>
 
 		<a
-			href="/playlists"
+			href="/playlists/create"
 			class="inline-block rounded-full bg-gray-200 px-6 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-300"
 		>
 			Create Another
